@@ -1,34 +1,23 @@
-g_LastCtrlKeyDownTime := 0
+LShift & Capslock::
+SetCapsLockState, % (State:=!State) ? "on" : "alwaysoff"
+Return
+
 g_AbortSendEsc := false
-g_ControlRepeatDetected := false
 
-*CapsLock::
-    if (g_ControlRepeatDetected)
-    {
-        return
-    }
-
-    send,{Ctrl down}
-    g_LastCtrlKeyDownTime := A_TickCount
-    g_AbortSendEsc := false
-    g_ControlRepeatDetected := true
-
-    return
-
-*CapsLock Up::
-    send,{Ctrl up}
-    g_ControlRepeatDetected := false
-    if (g_AbortSendEsc)
-    {
-        return
-    }
-    current_time := A_TickCount
-    time_elapsed := current_time - g_LastCtrlKeyDownTime
-    if (time_elapsed <= 250)
-    {
-        SendInput {Esc}
-    }
-    return
+#InstallKeybdHook
+SetCapsLockState, alwaysoff
+Capslock::
+g_DoNotAbortSendEsc := true
+Send {LControl Down}
+KeyWait, CapsLock
+Send {LControl Up}
+if ( A_PriorKey = "CapsLock")
+{
+	if(g_DoNotAbortSendEsc){
+		Send {Esc}
+	}
+}
+return
 
 ~*^a::
 ~*^b::
@@ -99,5 +88,5 @@ g_ControlRepeatDetected := false
 ~*^F10::
 ~*^F11::
 ~*^F12::
-    g_AbortSendEsc := true
+    g_DoNotAbortSendEsc := false
     return
