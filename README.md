@@ -6,3 +6,4 @@ media keys gives you the ability to go to the previous/next song, raise/lower th
 text replacement lets you type em and en dashes much easier
 
 CapsLockCtrlEscape sets caps lock to escape when pressed alone and ctrl when pressed in combination with another key
+Credit: https://gist.github.com/nocaoper/b872f97cda29bd8f0f2617606abd9fe4
