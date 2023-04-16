@@ -1,4 +1,4 @@
-LShift & Capslock::
+Escape::
 SetCapsLockState, % (State:=!State) ? "on" : "alwaysoff"
 Return
 
@@ -11,11 +11,10 @@ g_DoNotAbortSendEsc := true
 Send {LControl Down}
 KeyWait, CapsLock
 Send {LControl Up}
-if ( A_PriorKey = "CapsLock")
-{
-	if(g_DoNotAbortSendEsc){
-		Send {Esc}
-	}
+if ( A_PriorKey = "CapsLock" && g_DoNotAbortSendEsc){
+	Suspend, On
+	Send {Esc}
+	Suspend, Off
 }
 return
 
